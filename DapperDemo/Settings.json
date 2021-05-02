@@ -1,0 +1,6 @@
+{
+  "DbConfiguration": {
+    "Connection": "Server=DESKTOP-7RUDNLS\\SQLEXPRESS;Database=AdventureWorks2016;Trusted_Connection=True;"
+  },
+  "name": "anish"
+}
