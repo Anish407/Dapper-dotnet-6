@@ -24,9 +24,11 @@ IStudentRepository studentRepository = GetImplementation<IStudentRepository>(ser
 //Insert 
 //var response = await studentRepository.InsertStudent(new Student { Id = Guid.NewGuid().ToString(), Address = "MVLK", DOB = new DateTime(1988, 12, 22), Name = "ANish", Phone = "23432432" });
 
+//IN OperatorSQL
+var response = await studentRepository.GetStudentWithIDs("82F667D8-42CC-4763-BA24-85D7862E3667", "82F667D8-42CC-4763-BA24-85D7862E3667");
 
 //Console.WriteLine(response);
-//Console.WriteLine(response.ConvertToJsonString());
+Console.WriteLine(response.ConvertToJsonString());
 
 Console.WriteLine("Complete");
 Console.ReadKey();
@@ -65,5 +67,4 @@ IServiceProvider InitializeDI(IConfiguration configuration)
     services.AddScoped<IStudentRepository, StudentRepository>();
 
     return services.BuildServiceProvider();
-
 }

@@ -1,6 +1,7 @@
 ﻿using Dapper.DAL.Core;
 using Dapper.DAL.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -60,6 +61,10 @@ namespace Dapper.DAL.Infra
                   }
 
               });
+
+
+        public async Task<IEnumerable<Student>> GetStudentWithIDs(params string[] ids)
+         => await DapperExecutor.ExecuteQuery<Student>(async con => await con.QueryAsync<Student>(GetStudentByIdsSql, new { Ids = ids }));
     }
 
 }
