@@ -12,11 +12,14 @@ namespace Dapper.DAL.Infra
 
         public IDapperExecutor DapperExecutor { get; }
 
-
         public async Task<IEnumerable<Product>> GetAllProducts()
             => await DapperExecutor.GetAll<Product>(GetAllProductsQuery);
 
-        //When the property names in the model are different from the db columns
+        /// <summary>
+        /// Use this when the property names in the model differ from the db column names
+        /// In this case the Name column in the DB is mapped to the ProductName property in the model
+        /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<ProductWIthDIfferentName>> GetAllProductsNames() 
             => await DapperExecutor.GetAll<ProductWIthDIfferentName>(GetAllProductWithProductNamesQuery);
     }
