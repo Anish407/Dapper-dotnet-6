@@ -17,7 +17,6 @@ IStudentRepository studentRepository = GetImplementation<IStudentRepository>(ser
 //Get All Products
 //var response = await productRepository.GetAllProductsNames();
 
-
 //Execute multiple queries
 //var response = await studentRepository.GetStudentWithAccounts(new Guid("82F667D8-42CC-4763-BA24-85D7862E3667"));
 
@@ -46,6 +45,7 @@ TService GetImplementation<TService>(IServiceProvider serviceProvider) where TSe
     }
 }
 
+//Setup IConfiguration
 IConfiguration SetupConfiguration()
     => new ConfigurationBuilder()
             .AddJsonFile(Path.Combine(AppContext.BaseDirectory, string.Format("..{0}..{0}..{0}", Path.DirectorySeparatorChar),
@@ -53,6 +53,7 @@ IConfiguration SetupConfiguration()
             optional: true)
             .Build();
 
+//Setup DI and register dependencies
 IServiceProvider InitializeDI(IConfiguration configuration)
 {
     var services = new ServiceCollection();

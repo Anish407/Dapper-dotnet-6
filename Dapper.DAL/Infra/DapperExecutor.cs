@@ -3,6 +3,7 @@ using Dapper.DAL.Models;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -28,14 +29,14 @@ namespace Dapper.DAL.Infra
         /// <typeparam name="T"></typeparam>
         /// <param name="operation"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<T>> ExecuteQuery<T>(Func<SqlConnection, Task<IEnumerable<T>>> operation)
+        public async Task<IEnumerable<T>> ExecuteQuery<T>(Func<IDbConnection, Task<IEnumerable<T>>> operation)
         {
-            using var connection = await InitializeConnection();
+            using IDbConnection connection = await InitializeConnection();
             return await operation(connection);
         }
 
 
-        public async Task<T> ExecuteQuery<T>(Func<SqlConnection, Task<T>> operation)
+        public async Task<T> ExecuteQuery<T>(Func<IDbConnection, Task<T>> operation)
         {
             try
             {
@@ -57,7 +58,7 @@ namespace Dapper.DAL.Infra
         /// <typeparam name="T"></typeparam>
         /// <param name="operation"></param>
         /// <returns></returns>
-        public async Task ExecuteQuery<T>(Func<SqlConnection, Task> operation)
+        public async Task ExecuteQuery<T>(Func<IDbConnection, Task> operation)
         {
             using var connection = await InitializeConnection();
             await operation(connection);

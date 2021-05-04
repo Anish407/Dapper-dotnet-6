@@ -1,6 +1,7 @@
 ﻿using Dapper.DAL.Core;
 using Dapper.DAL.Models;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
@@ -22,6 +23,10 @@ namespace Dapper.DAL.Infra
          => this.DapperExecutor.ExecuteQuery(async con =>await con.QueryFirstOrDefaultAsync<StudentWithAccounts>
                                             ("SPName", new { id = studentId },commandType: CommandType.StoredProcedure));
 
+        public Task<IEnumerable<Student>> GetStudentWithIDs(params string[] ids)
+        {
+            throw new NotImplementedException();
+        }
 
         public Task<string> InsertStudent(Student student)
         {

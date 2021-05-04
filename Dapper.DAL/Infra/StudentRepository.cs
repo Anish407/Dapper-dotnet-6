@@ -52,7 +52,7 @@ namespace Dapper.DAL.Infra
 
                       if (accounts != null) student.StudentBackAccounts.AddRange(accounts);
 
-                      return student.FirstOrDefault();
+                      return student;
                   }
                   catch (Exception ex)
                   {
