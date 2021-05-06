@@ -29,11 +29,11 @@ namespace Dapper.DAL.Infra
         /// <typeparam name="T"></typeparam>
         /// <param name="operation"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<T>> ExecuteQuery<T>(Func<IDbConnection, Task<IEnumerable<T>>> operation)
-        {
-            using IDbConnection connection = await InitializeConnection();
-            return await operation(connection);
-        }
+        //public async Task<IEnumerable<T>> ExecuteQuery<T>(Func<IDbConnection, Task<IEnumerable<T>>> operation)
+        //{
+        //    using IDbConnection connection = await InitializeConnection();
+        //    return await operation(connection);
+        //}
 
 
         public async Task<T> ExecuteQuery<T>(Func<IDbConnection, Task<T>> operation)

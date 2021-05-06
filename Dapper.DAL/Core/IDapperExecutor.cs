@@ -8,7 +8,6 @@ namespace Dapper.DAL.Core
 {
     public interface IDapperExecutor
     {
-        Task<IEnumerable<T>> ExecuteQuery<T>(Func<IDbConnection, Task<IEnumerable<T>>> operation);
         Task<T> ExecuteQuery<T>(Func<IDbConnection, Task<T>> operation);
         Task ExecuteQuery<T>(Func<IDbConnection, Task> operation);
         Task<T> FirstOrDefaultAsync<T>(string sql, object parameters=null);
