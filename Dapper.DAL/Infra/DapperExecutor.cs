@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Dapper.DAL.Infra
 {
@@ -13,7 +14,7 @@ namespace Dapper.DAL.Infra
     {
         private DbConfiguration DbConfiguration { get; }
 
-        public DapperExecutor(IOptions<DbConfiguration> options)   => DbConfiguration = options.Value;
+        public DapperExecutor(IOptions<DbConfiguration> options) => DbConfiguration = options.Value;
 
         async Task<SqlConnection> InitializeConnection(string connectionstring = "")
         {
@@ -23,19 +24,6 @@ namespace Dapper.DAL.Infra
         }
 
 
-        /// <summary>
-        /// Pass in a delegate that returns an enumerable
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="operation"></param>
-        /// <returns></returns>
-        //public async Task<IEnumerable<T>> ExecuteQuery<T>(Func<IDbConnection, Task<IEnumerable<T>>> operation)
-        //{
-        //    using IDbConnection connection = await InitializeConnection();
-        //    return await operation(connection);
-        //}
-
-
         public async Task<T> ExecuteQuery<T>(Func<IDbConnection, Task<T>> operation)
         {
             try
@@ -43,10 +31,24 @@ namespace Dapper.DAL.Infra
                 using var connection = await InitializeConnection();
                 return await operation(connection);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                throw ex;
+            }
+        }
 
-                throw;
+        public async Task ExecuteQueryWithTransaction<T>(Func<IDbConnection,Task> operation)
+        {
+            using var tscn = new TransactionScope();
+            try
+            {
+                using var connection = await InitializeConnection();
+                await operation(connection);
+                tscn.Complete();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
           
         }
